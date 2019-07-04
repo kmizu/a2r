@@ -15,3 +15,41 @@ Here is the example of my regex ASTs (character classes is not supported yet):
   ")"
 }
 ```
+
+## Syntax
+
+### identifier
+
+```
+a
+```
+
+### string literal
+
+```
+"a"
+```
+
+### implicit sequence
+
+```
+"a" "b"
+```
+
+### explicit sequence
+
+```
+["a" "b"]
+```
+
+### alternation
+
+```
+"a" | "b"
+```
+
+### grouping
+
+```
+("a" | "b")+ | c
+```
