@@ -19,6 +19,8 @@ object Ast {
 
   case class StringNode(location: Location, value: String) extends Expression
 
+  case class Capture(location: Location, operand: Expression) extends Expression
+
   case class Id(location: Location, name: String) extends Expression
   object Id {
     def apply(name: String): Id = Id(NoLocation, name)

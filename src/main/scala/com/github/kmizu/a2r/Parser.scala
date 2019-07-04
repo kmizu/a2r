@@ -86,6 +86,7 @@ class Parser {
 
     lazy val PLUS: Parser[String] = token("+")
     lazy val STAR: Parser[String] = token("*")
+    lazy val SPECIAL_LPAREN: Parser[String] = token("#(")
     lazy val LPAREN: Parser[String] = token("(")
     lazy val RPAREN: Parser[String] = token(")")
     lazy val LBRACE: Parser[String] = token("{")
@@ -131,12 +132,13 @@ class Parser {
     lazy val primary: Parser[Expression] = rule {
       (
         ident
-          | predict(
+      | predict(
           '"' -> string,
           '[' -> explicitSequence,
-          '(' -> (CL(LPAREN) >> expression << RPAREN)
+          '(' -> (CL(LPAREN) >> expression << RPAREN),
+          '#' -> (((%% << CL(SPECIAL_LPAREN)) ~ expression << RPAREN) ^^ { case  location ~ operand => Capture(location, operand) })
         )
-        )
+      )
     }
 
     lazy val string: Parser[Expression] = rule {

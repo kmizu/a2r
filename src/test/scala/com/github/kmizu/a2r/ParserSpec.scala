@@ -67,6 +67,28 @@ class ParserSpec extends SpecHelper {
       )(result)
     }
   }
+  describe("grouping (`#(`)") {
+    it("a simple expression is parsed correctly") {
+      val result = parser.parseAll("""#(a) | b""")
+      assertResult(
+        BinaryExpression(
+          SourceLocation(1,6),
+          BinaryOperator.Or,
+          Capture(
+            SourceLocation(1,1),
+            Id(
+              SourceLocation(1,3),
+              "a"
+            )
+          ),
+          Id(
+            SourceLocation(1,8),
+            "b"
+          )
+        )
+      )(result)
+    }
+  }
   describe("|, *, and +") {
     it("is parsed correctly") {
       val result = parser.parseAll("""a | (b* | c)+ | d | "foo"""")
